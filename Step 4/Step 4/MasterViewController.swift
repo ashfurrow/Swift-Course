@@ -15,12 +15,13 @@ class MasterViewController: UITableViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refresh", forControlEvents: .ValueChanged)
         self.refreshControl = refreshControl
+        self.refresh()
     }
     
     func refresh() {
         let resource = "http://static.ashfurrow.com/course/dinges.json"
         let url = NSURL(string: resource)
-        let request = NSURLRequest(URL: url)
+        let request = NSURLRequest(URL: url!)
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response, data, error) -> Void in
             if let data = data {
                 let json: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil)
@@ -39,7 +40,7 @@ class MasterViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let objects = objects {
-            return objects.count
+            return countElements(objects)
         } else {
             return 0
         }
