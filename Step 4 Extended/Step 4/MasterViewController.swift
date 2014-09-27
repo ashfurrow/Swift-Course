@@ -20,7 +20,7 @@ class Photo {
     
     func downloadImage(completion: (photo: Photo) -> ()) {
         let url = NSURL(string: photoURL)
-        let request = NSURLRequest(URL: url)
+        let request = NSURLRequest(URL: url!)
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response, data, error) -> Void in
             if let data = data {
                 self.image = UIImage(data: data)
@@ -37,12 +37,13 @@ class MasterViewController: UITableViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refresh", forControlEvents: .ValueChanged)
         self.refreshControl = refreshControl
+        self.refresh()
     }
     
     func refresh() {
         let resource = "http://static.ashfurrow.com/course/dinges.json"
         let url = NSURL(string: resource)
-        let request = NSURLRequest(URL: url)
+        let request = NSURLRequest(URL: url!)
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response, data, error) -> Void in
             if let data = data {
                 let json: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil)
@@ -64,7 +65,7 @@ class MasterViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let photos = photos {
-            return photos.count
+            return countElements(photos)
         } else {
             return 0
         }
