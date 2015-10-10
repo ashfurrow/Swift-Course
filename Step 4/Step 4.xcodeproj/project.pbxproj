@@ -153,6 +153,8 @@
 		5EE734F919D69B7200EB0FB0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Ash Furrow";
 				TargetAttributes = {
@@ -393,6 +395,7 @@
 				5EE7352419D69B7200EB0FB0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5EE7352519D69B7200EB0FB0 /* Build configuration list for PBXNativeTarget "Step 4Tests" */ = {
 			isa = XCConfigurationList;
@@ -401,6 +404,7 @@
 				5EE7352719D69B7200EB0FB0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

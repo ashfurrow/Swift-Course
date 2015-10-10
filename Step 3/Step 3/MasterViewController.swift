@@ -12,20 +12,21 @@ class MasterViewController: UITableViewController {
     var greetings = ["Hello", "Goedemorgen", "Bon matin", "Buenos días", "Guten morgen", "Buongiorno", "おはよう"]
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countElements(greetings)
+        return greetings.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell
-        
-        cell.textLabel?.text = greetings[indexPath.row]
-        
-        return cell
+        if let cell = tableView.dequeueReusableCellWithIdentifier("Cell") {
+            cell.textLabel?.text = greetings[indexPath.row]
+            return cell
+        } else {
+            return UITableViewCell()
+        }
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        println("Did select greeting: \(greetings[indexPath.row])")
+        print("Did select greeting: \(greetings[indexPath.row])")
     }
 }
 

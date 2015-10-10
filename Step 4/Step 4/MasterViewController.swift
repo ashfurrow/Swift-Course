@@ -24,11 +24,11 @@ class MasterViewController: UITableViewController {
         let request = NSURLRequest(URL: url!)
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response, data, error) -> Void in
             if let data = data {
-                let json: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil)
-                let photos: AnyObject! = (json as [String: AnyObject])["photos"]
+                let json: AnyObject! = try? NSJSONSerialization.JSONObjectWithData(data, options: [])
+                let photos: AnyObject! = (json as! [String: AnyObject])["photos"]
                 self.objects = photos as? [[String: String]]
             } else {
-                println("Something went wrong: \(error)")
+                print("Something went wrong: \(error)")
             }
             
             self.refreshControl?.endRefreshing()
@@ -40,20 +40,20 @@ class MasterViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let objects = objects {
-            return countElements(objects)
+            return objects.count
         } else {
             return 0
         }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell
-        
-        if let objects = objects {
-            cell.textLabel?.text = objects[indexPath.row]["name"]
+        if let cell = tableView.dequeueReusableCellWithIdentifier("Cell") {
+            if let objects = objects {
+                cell.textLabel?.text = objects[indexPath.row]["name"]
+            }
+            return cell
+        } else {
+            return UITableViewCell()
         }
-        
-        return cell;
     }
 }
-

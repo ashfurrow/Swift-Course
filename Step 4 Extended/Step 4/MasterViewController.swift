@@ -9,8 +9,8 @@
 import UIKit
 
 class Photo {
-    let name: String = ""
-    let photoURL: String = ""
+    let name: String
+    let photoURL: String
     var image: UIImage? = nil
     
     init(name: String, photoURL: String) {
@@ -46,14 +46,14 @@ class MasterViewController: UITableViewController {
         let request = NSURLRequest(URL: url!)
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response, data, error) -> Void in
             if let data = data {
-                let json: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil)
-                let photos: AnyObject! = (json as [String: AnyObject])["photos"]
+                let json: AnyObject! = try? NSJSONSerialization.JSONObjectWithData(data, options: [])
+                let photos: AnyObject! = (json as! [String: AnyObject])["photos"]
                 
                 self.photos = (photos as? [[String: String]])?.map({ (photoDictionary: [String: String]) -> Photo in
                     return Photo(name: photoDictionary["name"]!, photoURL: photoDictionary["url"]!)
                 })
             } else {
-                println("Something went wrong: \(error)")
+                print("Something went wrong: \(error)")
             }
             
             self.refreshControl?.endRefreshing()
@@ -65,28 +65,29 @@ class MasterViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let photos = photos {
-            return countElements(photos)
+            return photos.count
         } else {
             return 0
         }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell
-        
-        if let photos = photos {
-            let photo = photos[indexPath.row]
-            cell.textLabel?.text = photo.name
-            if let image = photo.image {
-                cell.imageView?.image = photo.image
-            } else {
-                photo.downloadImage({ (photo) -> () in
-                    tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                })
+        if let cell = tableView.dequeueReusableCellWithIdentifier("Cell") {
+            if let photos = photos {
+                let photo = photos[indexPath.row]
+                cell.textLabel?.text = photo.name
+                if let image = photo.image {
+                    cell.imageView?.image = image
+                } else {
+                    photo.downloadImage({ (photo) -> () in
+                        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    })
+                }
             }
+            return cell
+        } else {
+            return UITableViewCell()
         }
-        
-        return cell;
     }
 }
 
