@@ -20,7 +20,7 @@ This session is targeted at developers who haven't yet learned iOS programming, 
 Prerequisites
 ----------------
 
-Your Mac with Xcode 6.0 installed, which can be installed from the App Store. 
+Your Mac with Xcode 7.0 installed, which can be installed from the App Store. 
 
 Speakers Bios
 ----------------
