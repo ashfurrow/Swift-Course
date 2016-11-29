@@ -18,13 +18,13 @@ class Photo {
         self.photoURL = photoURL
     }
     
-    func downloadImage(completion: (photo: Photo) -> ()) {
-        let url = NSURL(string: photoURL)
-        let request = NSURLRequest(URL: url!)
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response, data, error) -> Void in
+    func downloadImage(_ completion: @escaping (_ photo: Photo) -> ()) {
+        let url = URL(string: photoURL)
+        let request = URLRequest(url: url!)
+        NSURLConnection.sendAsynchronousRequest(request, queue: OperationQueue.main) { (response, data, error) -> Void in
             if let data = data {
                 self.image = UIImage(data: data)
-                completion(photo: self)
+                completion(self)
             }
         }
     }
@@ -35,18 +35,18 @@ class MasterViewController: UITableViewController {
     
     override func viewDidLoad() {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refresh", forControlEvents: .ValueChanged)
+        refreshControl.addTarget(self, action: #selector(MasterViewController.refresh), for: .valueChanged)
         self.refreshControl = refreshControl
         self.refresh()
     }
     
     func refresh() {
         let resource = "http://static.ashfurrow.com/course/dinges.json"
-        let url = NSURL(string: resource)
-        let request = NSURLRequest(URL: url!)
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response, data, error) -> Void in
+        let url = URL(string: resource)
+        let request = URLRequest(url: url!)
+        NSURLConnection.sendAsynchronousRequest(request, queue: OperationQueue.main) { (response, data, error) -> Void in
             if let data = data {
-                let json: AnyObject! = try? NSJSONSerialization.JSONObjectWithData(data, options: [])
+                let json: AnyObject! = try? JSONSerialization.jsonObject(with: data, options: []) as AnyObject!
                 let photos: AnyObject! = (json as! [String: AnyObject])["photos"]
                 
                 self.photos = (photos as? [[String: String]])?.map({ (photoDictionary: [String: String]) -> Photo in
@@ -63,7 +63,7 @@ class MasterViewController: UITableViewController {
     
     // Mark: - Table View stuff
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let photos = photos {
             return photos.count
         } else {
@@ -71,8 +71,8 @@ class MasterViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCellWithIdentifier("Cell") {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") {
             if let photos = photos {
                 let photo = photos[indexPath.row]
                 cell.textLabel?.text = photo.name
@@ -80,7 +80,7 @@ class MasterViewController: UITableViewController {
                     cell.imageView?.image = image
                 } else {
                     photo.downloadImage({ (photo) -> () in
-                        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                        tableView.reloadRows(at: [indexPath], with: .automatic)
                     })
                 }
             }

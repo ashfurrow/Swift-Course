@@ -13,18 +13,18 @@ class MasterViewController: UITableViewController {
     
     override func viewDidLoad() {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refresh", forControlEvents: .ValueChanged)
+        refreshControl.addTarget(self, action: #selector(MasterViewController.refresh), for: .valueChanged)
         self.refreshControl = refreshControl
         self.refresh()
     }
     
     func refresh() {
         let resource = "http://static.ashfurrow.com/course/dinges.json"
-        let url = NSURL(string: resource)
-        let request = NSURLRequest(URL: url!)
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response, data, error) -> Void in
+        let url = URL(string: resource)
+        let request = URLRequest(url: url!)
+        NSURLConnection.sendAsynchronousRequest(request, queue: OperationQueue.main) { (response, data, error) -> Void in
             if let data = data {
-                let json: AnyObject! = try? NSJSONSerialization.JSONObjectWithData(data, options: [])
+                let json: AnyObject! = try? JSONSerialization.jsonObject(with: data, options: []) as AnyObject!
                 let photos: AnyObject! = (json as! [String: AnyObject])["photos"]
                 self.objects = photos as? [[String: String]]
             } else {
@@ -38,7 +38,7 @@ class MasterViewController: UITableViewController {
     
     // Mark: - Table View stuff
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let objects = objects {
             return objects.count
         } else {
@@ -46,8 +46,8 @@ class MasterViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCellWithIdentifier("Cell") {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") {
             if let objects = objects {
                 cell.textLabel?.text = objects[indexPath.row]["name"]
             }

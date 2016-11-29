@@ -16,12 +16,6 @@ number = 5
 let numbers = [1,2,3]
 let strings = ["Ash", "Samuel", "Marga"]
 
-// Note: won't work [1, "Ash"]
-for var i = 0; i < strings.count; i++ {
-    print(strings[i])
-}
-// Note: open the side bar
-
 // Fast enumeration
 for string in strings {
     print(string)
@@ -42,7 +36,7 @@ strings.filter { (string: String) -> Bool in
 
 strings.filter { $0.hasPrefix("A") }
 
-let luckyNumbers = ["Ash": 17, "Samuel": 11, "Marga": 1337]
+let luckyNumbers = ["Ash": 17, "Samuel": 11, "Marga": 4243]
 
 for (key, value) in luckyNumbers {
     print("The lucky number of \(key) is \(value)")

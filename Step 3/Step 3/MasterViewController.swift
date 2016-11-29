@@ -11,12 +11,12 @@ import UIKit
 class MasterViewController: UITableViewController {
     var greetings = ["Hello", "Goedemorgen", "Bon matin", "Buenos días", "Guten morgen", "Buongiorno", "おはよう"]
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return greetings.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCellWithIdentifier("Cell") {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") {
             cell.textLabel?.text = greetings[indexPath.row]
             return cell
         } else {
@@ -24,8 +24,8 @@ class MasterViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         print("Did select greeting: \(greetings[indexPath.row])")
     }
 }

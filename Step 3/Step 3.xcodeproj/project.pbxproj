@@ -160,9 +160,11 @@
 				TargetAttributes = {
 					5EE734D019D699C900EB0FB0 = {
 						CreatedOnToolsVersion = 6.0.1;
+						LastSwiftMigration = 0810;
 					};
 					5EE734E719D699C900EB0FB0 = {
 						CreatedOnToolsVersion = 6.0.1;
+						LastSwiftMigration = 0810;
 						TestTargetID = 5EE734D019D699C900EB0FB0;
 					};
 				};
@@ -329,6 +331,7 @@
 				INFOPLIST_FILE = "Step 3/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -339,6 +342,7 @@
 				INFOPLIST_FILE = "Step 3/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -357,6 +361,7 @@
 				INFOPLIST_FILE = "Step 3Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Step 3.app/Step 3";
 			};
 			name = Debug;
@@ -372,6 +377,7 @@
 				INFOPLIST_FILE = "Step 3Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Step 3.app/Step 3";
 			};
 			name = Release;
